@@ -1,0 +1,13 @@
+CFLAGS = -lpthread -lncurses
+CC = g++
+__start__: a.out
+	./a.out
+
+a.out: program.o rysowanie.o
+	$(CC) program.o rysowanie.o -o a.out $(CFLAGS)
+
+program.o: program.cpp rysowanie.h
+	$(CC) -c -Wall -pedantic program.cpp $(CFLAGS)
+
+rysowanie.o: rysowanie.h rysowanie.cpp
+		$(CC) -c -Wall -pedantic rysowanie.cpp $(CFLAGS)

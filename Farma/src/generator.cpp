@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "basic_objects.h"
 #include "watekrolnik.h"
+#include <ncurses.h>
 
 #define test_errno(msg) do{if (errno) {perror(msg); exit(EXIT_FAILURE);}} while(0)
 
@@ -33,26 +34,29 @@ void tworzenie_watkow(int pola, int watki){
   	/* wybór podanego algorytmu szeregowania */
   	errno = pthread_attr_setschedpolicy(&attr, sched_policy);
   	test_errno("pthread_attr_setschedpolicy");
-  printf("Tworze watki\n");
-  /* utworzenie kilku wątków wątku z różnymi priorytetami */
-	for (int i=0; i < watki; i++) {
-		/* kolejne wątki mają coraz wyższe priorytety */
-		sp.sched_priority = pmin + (pmax-pmin) * i/(float)(watki-1);
-		pole[i].wolne = true;
-		pole[i].stan = orka;
-		pole[i].do_zwolnienia = 0;
-    pole[i].cykl = 0;
+    printf("Tworze watki\n");
+    /* utworzenie kilku wątków wątku z różnymi priorytetami */
+	  for (int i=0; i < watki; i++) {
+		     /* kolejne wątki mają coraz wyższe priorytety */
+		  sp.sched_priority = pmin + (pmax-pmin) * i/(float)(watki-1);
 
-		/* ustawienie priorytetu */
-		errno = pthread_attr_setschedparam(&attr, &sp);
-		test_errno("pthread_attr_setschedparam");
+      //Rysowanie pola
 
-		/* uruchomienie wątku */
-		errno = pthread_create(&id_watek[i], &attr, watek, pole);
-		test_errno("pthread_create");
+      pole[i].wolne   =   true;
+		  pole[i].stan    =   orka;
+		  pole[i].do_zwolnienia = 0;
 
-		printf("utworzono wątek #%d\n", i);
-	}
+		  /* ustawienie priorytetu */
+		  errno = pthread_attr_setschedparam(&attr, &sp);
+		  test_errno("pthread_attr_setschedparam");
+
+		  /* uruchomienie wątku */
+		  errno = pthread_create(&id_watek[i], &attr, watek, pole);
+		  test_errno("pthread_create");
+
+	 }
+
+  /*niszczenie zmiennej atrybut wątków*/
   errno = pthread_attr_destroy(&attr);
 	test_errno("pthread_attr_destroy");
 

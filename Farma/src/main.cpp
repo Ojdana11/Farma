@@ -5,12 +5,13 @@
 #include <sched.h>
 #include <errno.h>
 #include <unistd.h>
+#include <ncurses.h>
+#include <string.h>
 #include "generator.h"
 
 #define test_errno(msg) do{if (errno) {perror(msg); exit(EXIT_FAILURE);}} while(0)
 
 int main(int argc, char* argv[]) {
-
 /*generowanie zmiennych losowych*/
 	time_t tt;
 	srand(time(&tt));
@@ -26,13 +27,14 @@ int main(int argc, char* argv[]) {
 	int pola = atoi(argv[2]);
 
 tworzenie_watkow(pola, watki);
-
 	/* ustawienie flagi zakończenia pracy, którą testują funkcje wątków
-	   oraz odczyt ich bieżących liczników */
+	   oraz odczyt ich bieżących liczników
 	for (int i=0; i < 1; i++) {
 		printf("wątek #%d\n",i);
 	}
-
+*/
+	getch();			/* Wait for user input */
+	endwin();			/* End curses mode		  */
 	return EXIT_SUCCESS;
 }
 //------------------------------------------------------------------------
