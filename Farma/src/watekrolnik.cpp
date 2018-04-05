@@ -7,17 +7,25 @@
 #include <ncurses.h>
 #include "basic_objects.h"
 
-#define liczba_pol 5;
-  //int liczba_pol = sizeof(*pole) / sizeof(POLE);
-
+extern int liczba_pol;
+extern POLE pole[6];
 
 /* funkcja wykonywana w wątku - do głównego wątku ma zwracać położenie rolników*/
-void* watek(void* _pole) {
-  POLE *pole = (POLE*)_pole;
+void* watek(void* _rolnik) {
+  ROLNIK *rolnik = (ROLNIK*) _rolnik;
+
   int zebrane_plony =0;
   int pozycjay = pthread_self()%5 + rand()%10;
   int pozycjax = pozycjay+rand()%10;
-  mvaddch(pozycjay, pozycjax, '&');
+  if( has_colors() == TRUE )
+{
+    start_color();
+    init_pair( 2, COLOR_BLUE, COLOR_BLACK );
+    attron( COLOR_PAIR( 2) );
+    mvprintw(rolnik->numer_rolnika*2, 4, rolnik->znak);
+    attroff( COLOR_PAIR(2)); //Wyłączenie koloru tekstu
+}
+	refresh();
   //printf("Watek %d\n", pthread_self()%100);
   int nr_pola = rand()%liczba_pol;
 

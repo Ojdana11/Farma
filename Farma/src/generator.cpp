@@ -6,18 +6,20 @@
 #include <sched.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string>
 #include "basic_objects.h"
 #include "watekrolnik.h"
 
-
-
 #define test_errno(msg) do{if (errno) {perror(msg); exit(EXIT_FAILURE);}} while(0)
+int liczba_pol;
+extern POLE pole[6];
 
 void tworzenie_watkow(int pola, int watki){
 
     pthread_t id_watek[watki];
-    POLE pole[pola];
 	  pthread_attr_t attr;
+    ROLNIK rolnik[watki];
+    liczba_pol = pola;
     int pmin, pmax;
     int sched_policy;
     struct sched_param sp;
@@ -36,17 +38,16 @@ void tworzenie_watkow(int pola, int watki){
   	/* wybór podanego algorytmu szeregowania */
   	errno = pthread_attr_setschedpolicy(&attr, sched_policy);
   	test_errno("pthread_attr_setschedpolicy");
-    
+
     /* utworzenie kilku wątków wątku z różnymi priorytetami */
 
     for(int i=0; i<pola; i++)
     {
-      //Rysowanie pola
-
       pole[i].wolne   =   true;
       pole[i].stan    =   orka;
       pole[i].do_zwolnienia = 0;
     }
+
 	  for (int i=0; i < watki; i++) {
 		     /* kolejne wątki mają coraz wyższe priorytety */
 		  sp.sched_priority = pmin + (pmax-pmin) * i/(float)(watki-1);
@@ -54,13 +55,15 @@ void tworzenie_watkow(int pola, int watki){
 		  /* ustawienie priorytetu */
 		  errno = pthread_attr_setschedparam(&attr, &sp);
 		  test_errno("pthread_attr_setschedparam");
-
+      rolnik[i].numer_rolnika = i;
+      rolnik[i].znak = 'A' +i;
+      rolnik[i].zebrane_plony =0;
+      //printf("%d\n",rolnik.numer_rolnika);
 		  /* uruchomienie wątku */
-		  errno = pthread_create(&id_watek[i], &attr, watek, pole);
+		  errno = pthread_create(&id_watek[i], &attr, watek, &rolnik[i]);
 		  test_errno("pthread_create");
 
 	 }
-
   /*niszczenie zmiennej atrybut wątków*/
   errno = pthread_attr_destroy(&attr);
 	test_errno("pthread_attr_destroy");

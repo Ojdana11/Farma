@@ -1,3 +1,4 @@
+#include <string>
 
 enum Stan {orka, siew, naworzenie, zbiory};
 
@@ -16,3 +17,10 @@ typedef struct _POLE_struct{
   int wysokosc, szerokosc;
   WIN_BORDER border;
 } POLE;
+
+typedef struct _ROLNIK_struct{
+	int numer_rolnika;
+	chtype kolor;
+	char znak[2];
+	int zebrane_plony;
+} ROLNIK;

@@ -31,6 +31,7 @@ void print_win_params(POLE *p_win)
 #endif
 }
 
+
 void rysuj_pole(POLE *p_win, bool flag)
 {	int i, j;
 	int x, y, w, h;
@@ -50,7 +51,7 @@ void rysuj_pole(POLE *p_win, bool flag)
 		mvvline(y + 1, x, p_win->border.ls, h - 1); //lewa
 		mvvline(y + 1, x + w, p_win->border.rs, h - 1); //prawa
     for(j=1;j<h;j++)
-      mvhline(y+j, x + 1, '.', w - 1); //wypelnienei
+      mvhline(y+j, x + 1, '#', w - 1); //wypelnienei
 
 	}
 	else
