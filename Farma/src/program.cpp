@@ -1,70 +1,66 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <sched.h>
+#include <errno.h>
+#include <unistd.h>
+#include <string.h>
 #include "rysowanie.h"
+#include "straznik.h"
+#include "generator.h"
+
+#define test_errno(msg) do{if (errno) {perror(msg); exit(EXIT_FAILURE);}} while(0)
+//pthread_mutex_t	mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
-//jako argumenty przekazywane będą wartości pola oraz położenia rolników
 int main(int argc, char *argv[])
 {
-  int liczba_pol = 3;//atoi(argv[1]);
-  WIN win1,win2, win3;
+
+  if(!weryfikacja_argumentow(argc, argv)){
+    return EXIT_FAILURE;
+  }
+
+  time_t tt;
+  srand(time(&tt));
+  int watki = atoi(argv[1]);
+	int pola = atoi(argv[2]);
+  POLE win[pola];
 	int ch;
 
-	initscr();			/* Start curses mode 		*/
-	start_color();			/* Start the color functionality */
-	cbreak();			/* Line buffering disabled, Pass on
-					 * everty thing to me 		*/
-	keypad(stdscr, TRUE);		/* I need that nifty F1 	*/
+  /*Tworzenie okna, rysowanie pól*/
+	initscr();
+	start_color();
+	cbreak();
+	keypad(stdscr, TRUE);
 	noecho();
 	init_pair(1, COLOR_CYAN, COLOR_BLACK);
 
-	/* Initialize the window parameters */
-//  for(int i=0;i<liczba_pol;i++)
-//  {
-	init_win_params(&win1, 0);
-  	init_win_params(&win2, 1);
-    	init_win_params(&win3, 2);
-	print_win_params(&win2);
-  	print_win_params(&win3);
-    	print_win_params(&win1);
-//}
 	attron(COLOR_PAIR(1));
-	printw("Press F1 to exit");
+	printw("Press key down to exit");
 	refresh();
 	attroff(COLOR_PAIR(1));
 
-//for(int i=0;i<liczba_pol;i++)
-{
-	rysuj_pole(&win1, TRUE);
-  rysuj_pole(&win2, TRUE);
-  rysuj_pole(&win3, TRUE);
-}
+  for(int i=0;i<pola;i++)
+  {
+    if(i>=3)
+    {
+      init_win_params(&win[i], 1, i-3);
+    }
+    else{
+        init_win_params(&win[i], 0, i);
+    }
+    rysuj_pole(&win[i], TRUE);
+  }
+//------------------------------------------------------------------------------------------
 
-	while((ch = getch()) != KEY_F(1))
-	{	/*switch(ch)
-		{	case KEY_LEFT:
-				//rysuj_pole(&win, FALSE);
-				//--win.startx;
-				rysuj_pole(&win[0], TRUE);
-				break;
-			case KEY_RIGHT:
-				rysuj_pole(&win[0], FALSE);
-				++win.startx;
-				rysuj_pole(&win[0], TRUE);
-				break;
-			case KEY_UP:
-				rysuj_pole(&win[0], FALSE);
-				--win.starty;
-				rysuj_pole(&win, TRUE);
-				break;
-			case KEY_DOWN:
-				rysuj_pole(&win, FALSE);
-				++win.starty;
-				rysuj_pole(&win, TRUE);
-				break;
-		}*/
+
+//dorzucić wątki
+
+tworzenie_watkow(pola, watki);
+	while((ch = getch()) != KEY_DOWN)
+	{
 	}
-	endwin();			/* End curses mode		  */
+	endwin();
 	return 0;
 }

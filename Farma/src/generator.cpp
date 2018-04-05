@@ -1,4 +1,5 @@
 #define _XOPEN_SOURCE	500
+#include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -7,14 +8,15 @@
 #include <unistd.h>
 #include "basic_objects.h"
 #include "watekrolnik.h"
-#include <ncurses.h>
+
+
 
 #define test_errno(msg) do{if (errno) {perror(msg); exit(EXIT_FAILURE);}} while(0)
 
 void tworzenie_watkow(int pola, int watki){
 
     pthread_t id_watek[watki];
-    Pole pole[pola];
+    POLE pole[pola];
 	  pthread_attr_t attr;
     int pmin, pmax;
     int sched_policy;
@@ -34,17 +36,20 @@ void tworzenie_watkow(int pola, int watki){
   	/* wybór podanego algorytmu szeregowania */
   	errno = pthread_attr_setschedpolicy(&attr, sched_policy);
   	test_errno("pthread_attr_setschedpolicy");
-    printf("Tworze watki\n");
+    
     /* utworzenie kilku wątków wątku z różnymi priorytetami */
-	  for (int i=0; i < watki; i++) {
-		     /* kolejne wątki mają coraz wyższe priorytety */
-		  sp.sched_priority = pmin + (pmax-pmin) * i/(float)(watki-1);
 
+    for(int i=0; i<pola; i++)
+    {
       //Rysowanie pola
 
       pole[i].wolne   =   true;
-		  pole[i].stan    =   orka;
-		  pole[i].do_zwolnienia = 0;
+      pole[i].stan    =   orka;
+      pole[i].do_zwolnienia = 0;
+    }
+	  for (int i=0; i < watki; i++) {
+		     /* kolejne wątki mają coraz wyższe priorytety */
+		  sp.sched_priority = pmin + (pmax-pmin) * i/(float)(watki-1);
 
 		  /* ustawienie priorytetu */
 		  errno = pthread_attr_setschedparam(&attr, &sp);

@@ -3,14 +3,13 @@
 #include <stdio.h>
 #include "basic_objects.h"
 
-void init_win_params(WIN *p_win, int nr_pola)
+void init_win_params(POLE *p_win, int nr_polax, int nr_polay)
 {
-	p_win->wysokosc = 6;
+	p_win->wysokosc = 8;
 	p_win->szerokosc = 15;
 
-	p_win->starty = (nr_pola*8+1);
-	p_win->startx = (nr_pola*20+5);
-
+	p_win->starty = (nr_polax*15+3);
+	p_win->startx = (nr_polay*30+10);
 
 	p_win->border.ls = '|';
 	p_win->border.rs = '|';
@@ -22,7 +21,8 @@ void init_win_params(WIN *p_win, int nr_pola)
 	p_win->border.br = '+';
 
 }
-void print_win_params(WIN *p_win)
+
+void print_win_params(POLE *p_win)
 {
 #ifdef _DEBUG
 	mvprintw(25, 0, "%d %d %d %d", p_win->startx, p_win->starty,
@@ -30,7 +30,8 @@ void print_win_params(WIN *p_win)
 	refresh();
 #endif
 }
-void rysuj_pole(WIN *p_win, bool flag)
+
+void rysuj_pole(POLE *p_win, bool flag)
 {	int i, j;
 	int x, y, w, h;
 
@@ -49,7 +50,7 @@ void rysuj_pole(WIN *p_win, bool flag)
 		mvvline(y + 1, x, p_win->border.ls, h - 1); //lewa
 		mvvline(y + 1, x + w, p_win->border.rs, h - 1); //prawa
     for(j=1;j<h;j++)
-      mvhline(y+j, x + 1, 'x', w - 1); //góra
+      mvhline(y+j, x + 1, '.', w - 1); //wypelnienei
 
 	}
 	else
@@ -58,5 +59,4 @@ void rysuj_pole(WIN *p_win, bool flag)
 				mvaddch(j, i, ' ');
 
 	refresh();
-
 }
