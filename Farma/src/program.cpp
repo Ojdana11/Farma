@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
   srand(time(&tt));
   int watki = atoi(argv[1]);
 	int liczba_pol = atoi(argv[2]);
-  //POLE pole[liczba_pol];
 	int ch;
 
   /*Tworzenie okna, rysowanie pól*/
@@ -34,12 +33,21 @@ int main(int argc, char *argv[])
 	cbreak();
 	keypad(stdscr, TRUE);
 	noecho();
-	init_pair(1, COLOR_CYAN, COLOR_BLACK);
+	init_pair(0, COLOR_BLUE, COLOR_CYAN);
+  init_pair(1, COLOR_RED, COLOR_CYAN );
+  init_pair(2, COLOR_GREEN, COLOR_CYAN );
+  init_pair(3, COLOR_YELLOW, COLOR_CYAN );
+  init_pair(4, COLOR_YELLOW, COLOR_CYAN );
+  init_pair(5, COLOR_MAGENTA, COLOR_CYAN );
+  init_pair(6, COLOR_BLUE, COLOR_CYAN );
+  init_pair(7, COLOR_RED, COLOR_CYAN );
 
-	attron(COLOR_PAIR(1));
+  init_pair(10, COLOR_CYAN, COLOR_BLACK );
+
+	attron(COLOR_PAIR(10));
 	printw("Press key down to exit");
 	refresh();
-	attroff(COLOR_PAIR(1));
+	attroff(COLOR_PAIR(10));
 
   for(int i=0;i<liczba_pol;i++)
   {

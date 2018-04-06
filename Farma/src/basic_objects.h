@@ -19,6 +19,8 @@ typedef struct _POLE_struct{
 } POLE;
 
 typedef struct _ROLNIK_struct{
+	int glowax,gloway;
+	char znak_rolnika;
 	int numer_rolnika;
 	chtype kolor;
 	char znak[2];

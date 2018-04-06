@@ -56,7 +56,7 @@ void tworzenie_watkow(int pola, int watki){
 		  errno = pthread_attr_setschedparam(&attr, &sp);
 		  test_errno("pthread_attr_setschedparam");
       rolnik[i].numer_rolnika = i;
-      rolnik[i].znak = 'A' +i;
+      rolnik[i].znak_rolnika = 'A'+i;
       rolnik[i].zebrane_plony =0;
       //printf("%d\n",rolnik.numer_rolnika);
 		  /* uruchomienie wątku */
