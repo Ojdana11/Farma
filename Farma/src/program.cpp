@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
   init_pair(6, COLOR_BLUE, COLOR_CYAN );
   init_pair(7, COLOR_RED, COLOR_CYAN );
 
-  init_pair(10, COLOR_CYAN, COLOR_BLACK );
+  init_pair(10, COLOR_GREEN, COLOR_BLACK );
 
 	attron(COLOR_PAIR(10));
 	printw("Press key down to exit");

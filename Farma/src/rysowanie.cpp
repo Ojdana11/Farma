@@ -5,11 +5,11 @@
 
 void init_win_params(POLE *p_win, int nr_polax, int nr_polay)
 {
-	p_win->wysokosc = 8;
-	p_win->szerokosc = 15;
+	p_win->wysokosc = 11;
+	p_win->szerokosc = 11;
 
 	p_win->starty = (nr_polax*15+3);
-	p_win->startx = (nr_polay*30+10);
+	p_win->startx = (nr_polay*15+10);
 
 	p_win->border.ls = '|';
 	p_win->border.rs = '|';

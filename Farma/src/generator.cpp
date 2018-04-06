@@ -39,8 +39,6 @@ void tworzenie_watkow(int pola, int watki){
   	errno = pthread_attr_setschedpolicy(&attr, sched_policy);
   	test_errno("pthread_attr_setschedpolicy");
 
-    /* utworzenie kilku wątków wątku z różnymi priorytetami */
-
     for(int i=0; i<pola; i++)
     {
       pole[i].wolne   =   true;
@@ -48,6 +46,7 @@ void tworzenie_watkow(int pola, int watki){
       pole[i].do_zwolnienia = 0;
     }
 
+    /* utworzenie kilku wątków wątku z różnymi priorytetami */
 	  for (int i=0; i < watki; i++) {
 		     /* kolejne wątki mają coraz wyższe priorytety */
 		  sp.sched_priority = pmin + (pmax-pmin) * i/(float)(watki-1);

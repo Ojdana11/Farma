@@ -1,7 +1,7 @@
 CFLAGS = -lpthread -lncurses
 CC = g++
 __start__: a.out
-	./a.out 8 6
+	./a.out 10 5
 
 a.out: program.o generator.o watekrolnik.o rysowanie.o straznik.o
 	$(CC) program.o generator.o watekrolnik.o rysowanie.o straznik.o -o a.out $(CFLAGS)
