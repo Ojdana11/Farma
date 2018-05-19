@@ -57,6 +57,7 @@ void tworzenie_watkow(int pola, int watki){
       rolnik[i].numer_rolnika = i;
       rolnik[i].znak_rolnika = 'A'+i;
       rolnik[i].zebrane_plony =0;
+      rolnik[i].liczba_zbiorow=0;
       //printf("%d\n",rolnik.numer_rolnika);
 		  /* uruchomienie wątku */
 		  errno = pthread_create(&id_watek[i], &attr, watek, &rolnik[i]);
@@ -66,19 +67,21 @@ void tworzenie_watkow(int pola, int watki){
    int kolumny = 0;
    int rzedy = 0;
    getmaxyx( stdscr, rzedy, kolumny );
-   mvprintw(10,kolumny-60,"%s","Rolnik      zebrane plony");
+   mvprintw(10,kolumny/2,"%s","Rolnik      zebrane plony      liczba zbiorow");
    char ch;
 //(ch = getch()) != KEY_DOWN
-   while(true)
+   while((ch = getch()) != 'q')
    {
      for(int i=0;i<watki;i++)
      {
-       mvprintw(12+i,kolumny-56,"%s", &rolnik[i].znak_rolnika);
-       mvprintw(12+i,kolumny-46,"%d",rolnik[i].zebrane_plony);
+       mvaddch(12+i,kolumny/2+2,rolnik[i].znak_rolnika);
+       mvprintw(12+i,kolumny/2+18,"%d",rolnik[i].zebrane_plony);
+       mvprintw(12+i,kolumny/2+36,"%d",rolnik[i].liczba_zbiorow);
+       refresh();
      }
-          return ;
+        //  return ;
    }
-
+ return ;
 
    /*niszczenie zmiennej atrybut wątków*/
    errno = pthread_attr_destroy(&attr);

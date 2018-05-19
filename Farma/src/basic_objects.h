@@ -25,4 +25,5 @@ typedef struct _ROLNIK_struct{
 	chtype kolor;
 	char znak[2];
 	int zebrane_plony;
+	int liczba_zbiorow;
 } ROLNIK;

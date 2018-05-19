@@ -69,6 +69,7 @@ void wybor_pracy(POLE * pole, ROLNIK * rolnik){
       obrabianie_pola(pole, 'x',rolnik->numer_rolnika, rolnik->znak_rolnika);
       usleep(100000);
       rolnik->zebrane_plony+=rand()%20;
+      rolnik->liczba_zbiorow++;
     break;
 
     case zbiory:
@@ -87,7 +88,7 @@ void* watek(void* _rolnik) {
   //rolnik->gloway = rolnik->numer_rolnika*2 +3;
   //rolnik->glowax = 4;
 
-  while(rolnik->zebrane_plony<20){
+  while(rolnik->zebrane_plony<50){
     nr_pola = rand()%liczba_pol;
     if(pole[nr_pola].wolne)
     {
