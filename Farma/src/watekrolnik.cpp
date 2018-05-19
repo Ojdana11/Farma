@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <ncurses.h>
+#include <math.h>
 #include "basic_objects.h"
 
 extern int liczba_pol;
@@ -13,7 +14,9 @@ extern POLE pole[6];
 void obrabianie_pola(POLE * pole, char znak, int nr_rolnika, char znak_rolnika){
 
   int i, j;
-  	int x, y, w, h;
+  	int x, y, w, h, nornice,ile_extra;
+    ile_extra = (rand()%5)*(pow(-1,rand()%6));
+    nornice = ile_extra*10000;
     pole->do_zwolnienia =100;
   	x = pole->startx;
   	y = pole->starty;
@@ -21,15 +24,24 @@ void obrabianie_pola(POLE * pole, char znak, int nr_rolnika, char znak_rolnika){
   	h = pole->wysokosc-1;
     mvaddch(y, x, znak_rolnika);
     refresh();
+    if(nornice>0)
+    {
+      mvhline(pole->starty-1, pole->startx+4, '-', abs(ile_extra));
+    }
+    if(nornice<0)
+    {
+      mvhline(pole->starty-1, pole->startx+4, '+', abs(ile_extra));
+    }
     for(j = y+1; j <= y + h; ++j){
       for(i = x+1; i <= x + w; ++i){
           mvaddch(j, i, znak);
           pole->do_zwolnienia--;
           refresh();
-          usleep(100000);
+          usleep(100000+nornice);
       }
     }
     mvprintw(y, x, "+");
+        mvprintw(pole->starty-1,pole->startx+4,"%s","            ");
     pole->wolne=true;
     pole->do_zwolnienia =0;
     refresh();
@@ -86,8 +98,8 @@ void* watek(void* _rolnik) {
     }else{
       if(pole[nr_pola].do_zwolnienia<20)
       {
-        mvaddch(pole[nr_pola].starty-1, pole[nr_pola].startx+4, znak_rolnika);
-        mvaddch(pole[nr_pola].starty-1, pole[nr_pola].startx+5, '?');
+        mvaddch(pole[nr_pola].starty-1, pole[nr_pola].startx+1, znak_rolnika);
+        mvaddch(pole[nr_pola].starty-1, pole[nr_pola].startx+2, '?');
         refresh();
         while(pole[nr_pola].wolne==false){
         }

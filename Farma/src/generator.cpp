@@ -63,13 +63,33 @@ void tworzenie_watkow(int pola, int watki){
 		  test_errno("pthread_create");
 
 	 }
-  /*niszczenie zmiennej atrybut wątków*/
-  errno = pthread_attr_destroy(&attr);
-	test_errno("pthread_attr_destroy");
+   int kolumny = 0;
+   int rzedy = 0;
+   getmaxyx( stdscr, rzedy, kolumny );
+   mvprintw(10,kolumny-60,"%s","Rolnik      zebrane plony");
+   char ch;
+//(ch = getch()) != KEY_DOWN
+   while(true)
+   {
+     for(int i=0;i<watki;i++)
+     {
+       mvprintw(12+i,kolumny-56,"%s", &rolnik[i].znak_rolnika);
+       mvprintw(12+i,kolumny-46,"%d",rolnik[i].zebrane_plony);
+     }
+          return ;
+   }
 
-  /* teraz oczekiwanie na ich zakończenie */
-  for (int i=0; i < watki; i++) {
-    errno = pthread_join(id_watek[i], NULL);
-    test_errno("pthread_join");
-  }
+
+   /*niszczenie zmiennej atrybut wątków*/
+   errno = pthread_attr_destroy(&attr);
+ 	test_errno("pthread_attr_destroy");
+
+   /* teraz oczekiwanie na ich zakończenie */
+   for (int i=0; i < watki; i++) {
+     errno = pthread_join(id_watek[i], NULL);
+     test_errno("pthread_join");
+   }
+
+
+
 }

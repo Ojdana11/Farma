@@ -61,11 +61,11 @@ int main(int argc, char *argv[])
     rysuj_pole(&pole[i], TRUE); //rysowanie.cpp
   }
 //------------------------------------------------------------------------------------------
-
+while((ch = getch()) != KEY_DOWN)
+{
 tworzenie_watkow(liczba_pol, watki); //generator.cpp
-	while((ch = getch()) != KEY_DOWN)
-	{
-	}
+
+}
 	endwin();
 	return 0;
 }
